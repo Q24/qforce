@@ -19,6 +19,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
@@ -69,18 +70,20 @@ public class PersonServiceImpl implements PersonService {
 
         final List<Person> result = new ArrayList<>();
 
-        final String url = config.getSwapiPeopleSearchUrl() + query;
-        final PersonSearchResultPage page = fetchResource(url, PersonSearchResultPage.class);
+        final String queryUrl = config.getSwapiPeopleSearchUrl() + query;
+        final PersonSearchResultPage firstPage = fetchResource(queryUrl, PersonSearchResultPage.class);
 
-        if (page != null && page.getResults() != null) {
+        if (firstPage != null) {
 
             page.getResults().addAll(getRemainingPages(page, url));
 
-            page.getResults().forEach(person -> {
-                populateMovies(person);
-                cache.putIfAbsent(config.getSwapiPeopleUrl() + person.getId(), person);
-                result.add(person);
-            });
+            Stream.of(firstPage.getResults(), getRemainingPages(firstPage, queryUrl))
+                    .flatMap(Collection::stream)
+                    .forEach(person -> {
+                        populateMovies(person);
+                        cache.putIfAbsent(config.getSwapiPeopleUrl() + person.getId(), person);
+                        result.add(person);
+                    });
         }
 
         return result;

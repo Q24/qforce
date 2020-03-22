@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class PersonSearchResultPage {
     private int count;
     private String next;
     private String previous;
-    private List<PersonImpl> results;
+    private List<PersonImpl> results = new ArrayList<>();
 
     public int getCount() {
         return count;
