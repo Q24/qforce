@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import nl.qnh.qforce.service.PersonService;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,8 +14,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.List;
 
 /**
- * Implementation of the {@link Person} interface.<br/>
- * <p>
+ * Implementation of the {@link Person} interface.
+ * <br/><br/>
+ * {@link #movies} are populated by the {@link PersonService} after the movie urls are collected by
+ * {@link PersonDeserializer} in {@link #movieUrls}
+ * <br/><br/>
  * Remarks:
  * <ul>
  *     <li>{@link #movieUrls} field is ignored by Jackson, end users don't care about this</li>

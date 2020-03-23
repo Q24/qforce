@@ -31,8 +31,8 @@ import static nl.qnh.qforce.domain.AnalyticsVerb.YIELDED;
  * <br/><br/>
  * <b>requests</b><br/>
  * Use javas immutable {@link HttpClient} to execute the http requests, which are simple GET requests and only need the
- * <i>Accept</i> header to receive the correct data format (JSON). Subsequently, the Jackson {@link ObjectMapper} is leveraged
- * to deserialize the JSON data into a populated {@link PersonImpl}.
+ * <i>Accept</i> header to receive the correct data format (JSON). Subsequently, the Jackson {@link ObjectMapper} is
+ * leveraged to deserialize the JSON data into a populated {@link PersonImpl}.
  * <br/><br/>
  * <b>search</b><br/>
  * Once the first {@link PersonSearchResultPage} is received, subsequent pages are fetched asynchronously for improved performance in the
@@ -71,7 +71,7 @@ public class PersonServiceImpl implements PersonService {
     public List<Person> search(String query) {
 
         if (LOG.isDebugEnabled())
-            LOG.debug("Search request received with query: " + query);
+            LOG.debug("Search request received with query: \"{}\"", query);
 
         final List<Person> result = new ArrayList<>();
 
@@ -96,6 +96,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Optional<Person> get(long id) {
+
+        if (LOG.isDebugEnabled())
+            LOG.debug("Person request received with id: \"{}\"", id);
 
         final String url = config.getSwapiPeopleUrl() + id;
         final PersonImpl person = (PersonImpl) cache.computeIfAbsent(url, s -> fetchResource(s, inferType(s)));

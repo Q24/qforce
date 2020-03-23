@@ -19,7 +19,7 @@ import static nl.qnh.qforce.domain.Gender.*;
  * method. Providing a custom deserializer seems a good option here because we need some flexibility to map the
  * {@link PersonImpl}, so move those concerns here.
  * <br/>
- * This class read the required fields from the JSON tree and process values further if necessary:
+ * This class reads the required fields from the received JSON object and process values further if necessary:
  * <ul>
  *     <li>Integer types will be cleaned from thousand separators, then parsed as Double to retain decimals and finally
  *     rounded to closest whole number.</li>

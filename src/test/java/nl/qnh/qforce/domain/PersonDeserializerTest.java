@@ -21,7 +21,7 @@ class PersonDeserializerTest {
 
     @Test
     void testPerson1Conversion() throws Exception {
-        final PersonImpl person = getObjectFromJsonResource("person_response_id_1.json");
+        final PersonImpl person = getObjectFromJsonResource("json/person_response_id_1.json");
 
         assertEquals(1, person.getId());
         assertEquals(Gender.MALE, person.getGender());
@@ -34,7 +34,7 @@ class PersonDeserializerTest {
 
     @Test
     void testPerson16Conversion() throws Exception {
-        final PersonImpl person = getObjectFromJsonResource("person_response_id_16.json");
+        final PersonImpl person = getObjectFromJsonResource("json/person_response_id_16.json");
 
         assertEquals(16, person.getId());
         assertNull(person.getGender()); // value "hermaphrodite"

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequestMapping(path = "persons", method = RequestMethod.GET)
 @RestController
@@ -26,6 +27,7 @@ public class PersonController {
 
     @RequestMapping("{id}")
     public Person getPerson(@PathVariable @Min(1) long id) {
-        return personService.get(id).orElseThrow(IllegalArgumentException::new);
+        return personService.get(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("Person with id %d does not exist.", id)));
     }
 }
