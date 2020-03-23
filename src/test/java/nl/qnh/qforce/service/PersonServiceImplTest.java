@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.qnh.qforce.config.QforceConfig;
 import nl.qnh.qforce.domain.MovieImpl;
 import nl.qnh.qforce.domain.PersonImpl;
+import nl.qnh.qforce.repository.AnalyticsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +42,9 @@ class PersonServiceImplTest {
 
     @Mock
     private QforceConfig qforceConfig;
+
+    @Mock
+    private AnalyticsRepository analyticsRepository;
 
     @Mock
     private HttpResponse<Object> response;

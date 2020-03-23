@@ -3,6 +3,7 @@ package nl.qnh.qforce.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.qnh.qforce.config.QforceConfig;
 import nl.qnh.qforce.domain.*;
+import nl.qnh.qforce.repository.AnalyticsRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
+import static nl.qnh.qforce.domain.AnalyticsVerb.FOUND;
+import static nl.qnh.qforce.domain.AnalyticsVerb.YIELDED;
 
 /**
  * The person service implementation to search and retrieve persons.
@@ -56,10 +59,12 @@ public class PersonServiceImpl implements PersonService {
 
     private final ObjectMapper objectMapper;
     private final QforceConfig config;
+    private final AnalyticsRepository analyticsRepository;
 
-    public PersonServiceImpl(ObjectMapper objectMapper, QforceConfig config) {
+    public PersonServiceImpl(ObjectMapper objectMapper, QforceConfig config, AnalyticsRepository analyticsRepository) {
         this.objectMapper = objectMapper;
         this.config = config;
+        this.analyticsRepository = analyticsRepository;
     }
 
     @Override
@@ -75,7 +80,7 @@ public class PersonServiceImpl implements PersonService {
 
         if (firstPage != null) {
 
-            page.getResults().addAll(getRemainingPages(page, url));
+            analyticsRepository.save(new AnalyticsEntry(queryUrl, FOUND, Integer.toString(firstPage.getCount())));
 
             Stream.of(firstPage.getResults(), getRemainingPages(firstPage, queryUrl))
                     .flatMap(Collection::stream)
@@ -95,7 +100,12 @@ public class PersonServiceImpl implements PersonService {
         final String url = config.getSwapiPeopleUrl() + id;
         final PersonImpl person = (PersonImpl) cache.computeIfAbsent(url, s -> fetchResource(s, inferType(s)));
 
-        if (person == null) return Optional.empty();
+        if (person == null) {
+            analyticsRepository.save(new AnalyticsEntry(url, YIELDED, null));
+            return Optional.empty();
+        } else {
+            analyticsRepository.save(new AnalyticsEntry(url, YIELDED, PersonImpl.class.getSimpleName()));
+        }
 
         return Optional.of(populateMovies(person));
     }
