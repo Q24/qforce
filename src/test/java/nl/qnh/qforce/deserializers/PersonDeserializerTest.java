@@ -24,8 +24,7 @@ public class PersonDeserializerTest {
             expectedPerson.setGender(Gender.MALE);
             expectedPerson.setBirthYear("19BBY");
 
-
-            Person actualPerson = PersonDeserializer.get(1, exampleJson);
+            Person actualPerson = PersonDeserializer.get(Long.valueOf(1), exampleJson);
 
             assertEquals(expectedPerson.getId(), actualPerson.getId());
             assertEquals(expectedPerson.getName(), actualPerson.getName());

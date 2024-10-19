@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import nl.qnh.qforce.deserializers.PersonDeserializer;
 import nl.qnh.qforce.domain.Person;
 
@@ -30,6 +33,22 @@ public class PersonServiceImplementation implements PersonService {
     @Override
     public List<Person> search(String query) {
         List<Person> persons = new ArrayList<>();
+        try {
+            String url = "https://swapi.dev/api/people/?search=" + query;
+            HttpResponse<String> response = WebService.fetchOne(url);
+            if(response.statusCode() == 200) {
+                JSONObject jsonObject = new JSONObject(response.body());
+                if (jsonObject.has("results")) {
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    for (int i = 0; i < results.length(); i++) { 
+                        Person person = PersonDeserializer.get(Long.valueOf(-1), results.getJSONObject(i).toString()); 
+                        persons.add(person);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
         return persons;
     }
 

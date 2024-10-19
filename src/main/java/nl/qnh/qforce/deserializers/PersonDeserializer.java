@@ -26,7 +26,7 @@ public class PersonDeserializer {
      * @throws InterruptedException
      * @throws ExecutionException
      */
-    public static Person get(long id, String json) throws JsonProcessingException, JsonMappingException, InterruptedException, ExecutionException {
+    public static Person get(Long id, String json) throws JsonProcessingException, JsonMappingException, InterruptedException, ExecutionException {
 
         // Map the json string to PersonImplementation
         ObjectMapper objectMapper = new ObjectMapper();
@@ -34,7 +34,8 @@ public class PersonDeserializer {
 
         // Set the id (since it wasn't in the response body)
         person.setId(id);
-
+        
+        
         // Get the movies if here are any
         if(person.getMovieUrls() != null) {
 

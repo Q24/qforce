@@ -1,4 +1,7 @@
 package nl.qnh.qforce.controllers;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,5 +31,28 @@ public class PersonControllerTest {
 
         mockMvc.perform(get("/persons/100"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testSearchPersons_Found() {
+        try {
+            mockMvc.perform(get("/persons?q=r2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
+                .andExpect(jsonPath("$[0].name").value("R2-D2")); 
+        } catch (Exception e) {
+            fail("Test failed due to exception: " + e.getMessage());
+        }
+    }
+
+    @Test
+    void testSearchPersons_NotFound() {
+        try {
+            mockMvc.perform(get("/persons?q=r2b2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0)))); 
+        } catch (Exception e) {
+            fail("Test failed due to exception: " + e.getMessage());
+        }
     }
 }

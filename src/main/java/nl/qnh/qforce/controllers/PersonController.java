@@ -1,5 +1,6 @@
 package nl.qnh.qforce.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -43,9 +44,9 @@ public class PersonController {
      * @return
      */
     @GetMapping("/persons")
-    public String searchPersons(@RequestParam String q) {
-
-        return "Just testing this out";
+    public ResponseEntity<List<Person>> searchPersons(@RequestParam String q) {
+        List<Person> personList = personService.search(q);
+        return new ResponseEntity<>(personList, HttpStatus.OK);
     }
 
 }
