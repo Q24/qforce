@@ -1,0 +1,8 @@
+services:
+  ilionx-qforce-backend:
+    container_name: ilionx-qforce-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
