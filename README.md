@@ -14,6 +14,10 @@ Get by ID: `/persons/{id}`
 
 Once you run the application, you will find a detailed explanation of the endpoints in the Swagger UI (http://localhost:8080/swagger-ui/index.html), or you can find the OpenAPI file in this repository (`openapi.json`).
 
+## Docker
+
+You can also run the application in a Docker container. Simply run `docker compose up -d` in this repository. One container will launch. You can then access it on http://localhost:8080.
+
 ## Requirements / Objectives
 
 - Fork this project.
