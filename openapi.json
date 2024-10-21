@@ -1,0 +1,95 @@
+{
+  "openapi": "3.0.1",
+  "info": { "title": "OpenAPI definition", "version": "v0" },
+  "servers": [
+    { "url": "http://localhost:8080", "description": "Generated server url" }
+  ],
+  "paths": {
+    "/persons": {
+      "get": {
+        "tags": ["person-controller"],
+        "operationId": "searchPersons",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Person" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/persons/{id}": {
+      "get": {
+        "tags": ["person-controller"],
+        "operationId": "getPersonById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": { "schema": { "$ref": "#/components/schemas/Person" } }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "episode": { "type": "integer", "format": "int32" },
+          "director": { "type": "string" },
+          "releaseDate": { "type": "string", "format": "date" }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "properties": {
+          "birthYear": { "type": "string" },
+          "gender": {
+            "type": "string",
+            "enum": ["MALE", "FEMALE", "UNKNOWN", "NOT_APPLICABLE"]
+          },
+          "height": { "type": "integer", "format": "int32" },
+          "movies": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Movie" }
+          },
+          "weight": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" },
+          "id": { "type": "integer", "format": "int64" }
+        }
+      }
+    }
+  }
+}
