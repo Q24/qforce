@@ -22,14 +22,11 @@ import nl.qnh.qforce.service.PersonServiceImplementation;
 public class PersonController {
 
     @Autowired
-    AnalyticService analyticService;
+    private AnalyticService analyticService;
 
-    PersonServiceImplementation personService;
-
-    public PersonController() {
-        this.personService = new PersonServiceImplementation();
-    }
-
+    @Autowired
+    private PersonServiceImplementation personService;
+    
     /**
      * Endpoint for receiving a person
      * @param id

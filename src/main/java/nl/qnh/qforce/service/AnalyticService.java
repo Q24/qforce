@@ -14,13 +14,9 @@ import nl.qnh.qforce.repositories.AnalyticRepository;
 @Service
 public class AnalyticService {
     
-    private final AnalyticRepository analyticRepository;
-
     @Autowired
-    public AnalyticService(AnalyticRepository analyticRepository) {
-        this.analyticRepository = analyticRepository;
-    }
-
+    private AnalyticRepository analyticRepository;
+    
     /**
      * Function to save a new analytics record
      * @param request

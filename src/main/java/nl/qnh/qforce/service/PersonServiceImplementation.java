@@ -7,10 +7,12 @@ import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import nl.qnh.qforce.deserializers.PersonDeserializer;
 import nl.qnh.qforce.domain.Person;
 
+@Service
 public class PersonServiceImplementation implements PersonService {
     
     @Override
